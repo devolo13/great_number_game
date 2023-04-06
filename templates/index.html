@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <style>
+    .guessBox {
+      /* IF THE USER GUESSES CORRECTLY, HIDE THE guessBox */
+      {% if guess==number %}
+        display: none;
+      {% endif %}
+    }
+  </style>
+  <title>Great Number Game</title>
+</head>
+
+<body class="text-center">
+  <h1>Welcome to the Great Number Game!</h1>
+  <h5 class="my-3">I am thinking of a number between 1 and 100</h5>
+  {% if guess == None %}
+    <!-- FIRST PAGE LOAD. SHOW NOTHING -->
+  {% elif guess == 'Not an integer' %}
+    <!-- IF USER INPUTS SOMETHING GOOFY -->
+    <h2 class="bg-danger text-warning w-50 mx-auto rounded">You're very funny. Now input a number</h2>
+  {% elif guess == number %}
+    <!-- IF USER IS CORRECT. SHOW PLAY AGAIN BUTTON -->
+    <div class="border bg-success w-50 mx-auto rounded">
+      <h2 class="text-white">{{number}} was the number!</h2>
+      <form action="/destroy_session">
+        <button class="btn bg-light mb-2">Play again!</button>
+      </form>
+    </div>
+  {% elif guess > number %}
+    <!-- USER'S GUESS WAS TOO HIGH -->
+    <h2 class="bg-danger text-warning w-50 mx-auto rounded">GUESS TOO HIGH</h2>
+  {% else %}
+    <!-- USER'S GUESS WAS TOO LOW -->
+    <h2 class="bg-danger text-warning w-50 mx-auto rounded">GUESS TOO LOW</h2>
+  {% endif %}
+  <!-- INPUT BOX AND SUBMIT GUESS BUTTON -->
+  <div class="guessBox bg-dark p-2 rounded w-25 mx-auto">
+    <h4 class="text-warning">Take a guess!!!</h4>
+    <form action="/guess" method="post">
+      <input type="text" name="user_guess" class="m-2">
+      <br>
+      <button class="btn bg-warning" type="submit">Guess</button>
+    </form>
+  </div>
+</body>
+
+</html>
